@@ -1,4 +1,4 @@
--- intermediate questions
+-- INTERMEDIATE QUESTIONS
 -- Average age by segmentation
 
 SELECT Segmentation, ROUND(AVG(Age), 2) AS avg_age
