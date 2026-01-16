@@ -1,0 +1,48 @@
+-- ADVANCED QUESTIONS
+-- Rank segments by average age
+
+SELECT Segmentation,
+       ROUND(AVG(Age), 2) AS avg_age,
+       RANK() OVER (ORDER BY AVG(Age) DESC) AS age_rank
+FROM customer_segmentation.train
+GROUP BY Segmentation;
+
+-- Percentage contribution of each segment
+
+SELECT Segmentation,
+       ROUND(
+           COUNT(*) * 100.0 / (SELECT COUNT(*) FROM customer_segmentation.train),
+           2
+       ) AS percentage_share
+FROM customer_segmentation.train
+GROUP BY Segmentation;
+
+-- Top 3 professions by customer count
+
+SELECT Profession, COUNT(*) AS total_customers
+FROM customer_segmentation.train
+GROUP BY Profession
+ORDER BY total_customers DESC
+LIMIT 3;
+
+-- Average spending score by age group
+
+SELECT
+  CASE
+    WHEN Age < 25 THEN 'Below 25'
+    WHEN Age BETWEEN 25 AND 40 THEN '25-40'
+    WHEN Age BETWEEN 41 AND 60 THEN '41-60'
+    ELSE '60+'
+  END AS age_group,
+  Spending_Score,
+  COUNT(*) AS total_customers
+FROM customer_segmentation.train
+GROUP BY age_group, Spending_Score;
+
+-- Identify high-value customers (logic-based)
+
+SELECT *
+FROM customer_segmentation.train
+WHERE Spending_Score = 'High'
+  AND Work_Experience >= 1
+  AND Graduated = 'Yes';
