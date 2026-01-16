@@ -1,0 +1,34 @@
+-- intermediate questions
+-- Average age by segmentation
+
+SELECT Segmentation, ROUND(AVG(Age), 2) AS avg_age
+FROM customer_segmentation.train
+GROUP BY Segmentation;
+
+-- Spending score distribution by segmentation
+
+SELECT Segmentation, Spending_Score, COUNT(*) AS total_customers
+FROM customer_segmentation.train
+GROUP BY Segmentation, Spending_Score
+ORDER BY Segmentation;
+
+-- Profession-wise customer count
+
+SELECT Profession, COUNT(*) AS total_customers
+FROM customer_segmentation.train
+GROUP BY Profession
+ORDER BY total_customers DESC;
+
+-- Average work experience by segmentation
+
+SELECT Segmentation, ROUND(AVG(Work_Experience), 2) AS avg_experience
+FROM customer_segmentation.train
+GROUP BY Segmentation;
+
+-- Married vs non-married customers by segment
+
+SELECT 
+    Segmentation, Ever_Married, COUNT(*) AS total_customers
+FROM
+    customer_segmentation.train
+GROUP BY Segmentation , Ever_Married;
